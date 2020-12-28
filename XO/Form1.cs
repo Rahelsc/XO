@@ -64,7 +64,7 @@ namespace XO
                 "\nA Three By Three Grid" +
                 "\nIf You Wish To Change Setting Go To Menu";
             gameInstructions.Size = new Size(this.Width-50, this.Height-50);
-            gameInstructions.Location = new Point(this.Width/2 + this.Width/3, this.Height/2);
+            gameInstructions.Location = new Point(50, 50);
             gameInstructions.Font = new Font("Arial", 16);
             gameInstructions.TextAlign = ContentAlignment.MiddleCenter;
             this.Controls.Add(gameInstructions);
