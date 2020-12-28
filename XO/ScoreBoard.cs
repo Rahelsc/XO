@@ -13,6 +13,7 @@ namespace XO
         private int[] rowScore;
 
 
+
         private int leftDiagonalCounter = 0;
 
         public int LeftDiagonalCounter

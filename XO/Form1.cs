@@ -31,18 +31,18 @@ namespace XO
         {
             InitializeComponent();
             this.BackColor = Color.FromArgb(234, 26, 192);
-            this.MinimumSize = new Size(500, 400);
             LoadGameInstructions(this, new EventArgs());
-            grideSet(this, new EventArgs());
-            setNewScoreBoardLabel();
+            this.Location = new Point(0, 0);
+            this.Size = new Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height-100);
         }
 
         private void setNewScoreBoardLabel()
         {
+            this.Controls.Remove(resultsLabel);
             resultsLabel = new Label();
-            resultsLabel.Size = new Size(this.Width + FORM_MARGIN, 25);
+            resultsLabel.Size = new Size(this.Width, 25);
             resultsLabel.BackColor = Color.Azure;
-            resultsLabel.Location = new Point(20, this.Height - RUBRIC_SIZE);
+            resultsLabel.Location = new Point(0, this.Height - RUBRIC_SIZE);
             resultsLabel.Font = new Font("Arial", 16);
             resultsLabel.TextAlign = ContentAlignment.BottomCenter;
             resultsLabel.Text = $"X Player Points: {xWins} O Player Points: {oWins}";
@@ -51,6 +51,7 @@ namespace XO
 
         public void LoadGameInstructions(object sender, EventArgs e)
         {
+            this.Controls.Remove(resultsLabel);
             MenuStrip gameMenu = this.menuStrip1;
             this.Controls.Clear();
             this.Controls.Add(gameMenu);
@@ -63,7 +64,7 @@ namespace XO
                 "\nA Three By Three Grid" +
                 "\nIf You Wish To Change Setting Go To Menu";
             gameInstructions.Size = new Size(this.Width-50, this.Height-50);
-            gameInstructions.Location = new Point(20, 20);
+            gameInstructions.Location = new Point(this.Width/2 + this.Width/3, this.Height/2);
             gameInstructions.Font = new Font("Arial", 16);
             gameInstructions.TextAlign = ContentAlignment.MiddleCenter;
             this.Controls.Add(gameInstructions);
@@ -97,14 +98,11 @@ namespace XO
                 else
                     choice = 3;
             }
-
             XmyScores = new ScoreBoard(choice);
             OmyScores = new ScoreBoard(choice);
-
-
-            this.Width = RUBRIC_SIZE * choice + FORM_MARGIN;
-            this.Height = RUBRIC_SIZE * choice + FORM_MARGIN;
-
+            //this.Size = new Size(RUBRIC_SIZE * choice * 2, RUBRIC_SIZE * choice * 2);
+            //Screen.GetBounds
+            
             grid = new Button[choice * choice];
             for (int i = 0; i < grid.Length; i++)
             {
@@ -113,9 +111,9 @@ namespace XO
                 grid[i].Font = new Font("Arial", 24);
                 grid[i].FlatStyle = FlatStyle.Flat;
                 grid[i].FlatAppearance.BorderColor = Color.White;
-                grid[i].FlatAppearance.BorderSize = 1;
+                grid[i].FlatAppearance.BorderSize = 3;
                 grid[i].Size = new Size(RUBRIC_SIZE, RUBRIC_SIZE);
-                grid[i].Location = new Point(RUBRIC_SIZE * (i % choice) + FORM_MARGIN * 2, RUBRIC_SIZE * (i/choice)+ FORM_MARGIN* 2);
+                grid[i].Location = new Point(RUBRIC_SIZE * (i % choice) + FORM_MARGIN * 17, RUBRIC_SIZE * (i/choice)+ FORM_MARGIN* 6);
                 grid[i].Click += playerMove;
                 grid[i].Tag = i;
                 grid[i].MouseHover += changeCursor;
@@ -376,15 +374,19 @@ namespace XO
 
             if (max == -1)
             {
-                for (int i = 0; i < grid.Length; i++)
+                Random r = new Random();
+                do
                 {
-                    if (grid[i].Text == "")
+                    int rand = r.Next(0, choice * choice);
+                    if (grid[rand].Text == "")
                     {
-                        grid[i].ForeColor = Color.Black;
-                        grid[i].Text = "O";
-                        return grid[i];
+                        grid[rand].ForeColor = Color.Black;
+                        grid[rand].Text = "O";
+                        return grid[rand];
                     }
-                }
+
+                } while (true);
+
             }
             else
             {
@@ -459,6 +461,5 @@ namespace XO
             Application.Exit();
         }
     }
-
 
 }
