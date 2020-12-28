@@ -116,7 +116,7 @@ namespace XO
                 grid[i].Location = new Point(RUBRIC_SIZE * (i % choice) + FORM_MARGIN * 17, RUBRIC_SIZE * (i/choice)+ FORM_MARGIN* 6);
                 grid[i].Click += playerMove;
                 grid[i].Tag = i;
-                grid[i].MouseHover += changeCursor;
+                grid[i].MouseEnter += changeCursor;
                 grid[i].MouseLeave += deleteCursor;
                 this.Controls.Add(grid[i]);                
             }
